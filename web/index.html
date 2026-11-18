@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="دومينو أمريكاني أونلاين">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="domino_masri">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>domino_masri</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div id="loading" dir="rtl" style="position:fixed;inset:0;background:#19110B;color:#D4AF37;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;z-index:9999;gap:12px;">
+    <div style="font-size:24px;font-weight:bold;">دومينو أمريكاني</div>
+    <div id="loading-status" style="font-size:14px;color:#E6D5B8;">جاري تحميل اللعبة...</div>
+  </div>
+  <script>
+    (function () {
+      var st = document.getElementById('loading-status');
+      window.addEventListener('error', function (e) {
+        if (st && e && e.message) {
+          st.textContent = 'خطأ في التحميل: ' + e.message;
+        }
+      });
+      if ('serviceWorker' in navigator) {
+        var hadController = !!navigator.serviceWorker.controller;
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          if (!regs || regs.length === 0) return;
+          Promise.all(regs.map(function (r) { return r.unregister(); })).then(function () {
+            if ('caches' in window) {
+              caches.keys().then(function (keys) {
+                return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+              }).catch(function () {});
+            }
+            if (hadController && !sessionStorage.getItem('sw_cleared')) {
+              sessionStorage.setItem('sw_cleared', '1');
+              window.location.reload();
+            }
+          });
+        }).catch(function () {});
+      }
+    })();
+  </script>
+  <script src="flutter_bootstrap.js" async onerror="var s=document.getElementById('loading-status');if(s)s.textContent='تعذر تحميل ملف التشغيل (flutter_bootstrap.js)';"></script>
+</body>
+</html>
