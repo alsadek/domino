@@ -59,11 +59,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Build Android Release APK
-        run: flutter build apk --release --dart-define-from-file=.env
+      - name: Build Android Release APKs (Optimized & Lightweight)
+        run: flutter build apk --release --split-per-abi --dart-define-from-file=.env
 
-      - name: Upload APK Artifact
+      - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: domino-masri-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: domino-masri-release-apks
+          path: build/app/outputs/flutter-apk/*.apk
