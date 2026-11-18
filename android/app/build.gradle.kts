@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.masri.domino.domino_masri"
-    compileSdk = 35
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
